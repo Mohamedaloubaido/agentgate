@@ -1,0 +1,19 @@
+name: Runner Smoke
+
+on:
+  push:
+    branches:
+      - feat/persisted-runs
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Runner acquired
+        run: |
+          echo "runner-ok"
+          uname -a
+          python --version || true
+          node --version || true
