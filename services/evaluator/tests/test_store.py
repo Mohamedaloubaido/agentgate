@@ -11,13 +11,14 @@ from app.store import RunStore  # noqa: E402
 
 
 class RunStoreTests(unittest.TestCase):
-    def test_round_trip_run_summary(self) -> None:
+    def test_round_trip_run_detail(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             store = RunStore(str(Path(directory) / 'runs.db'))
             response = EvaluationResponse(
                 run_id='run_test123',
                 created_at='2026-10-15T12:00:00+00:00',
                 project='support-agent',
+                source='endpoint',
                 gate_passed=True,
                 metrics=AggregateMetrics(
                     task_success=1.0,
@@ -35,6 +36,9 @@ class RunStoreTests(unittest.TestCase):
                         score=0.91,
                         passed=True,
                         reason='ok',
+                        actual='A grounded answer.',
+                        latency_ms=250,
+                        status_code=200,
                     )
                 ],
                 failures=[],
@@ -42,12 +46,17 @@ class RunStoreTests(unittest.TestCase):
 
             store.save(response, 'heuristic')
             runs = store.list()
+            detail = store.get('run_test123')
 
             self.assertEqual(len(runs), 1)
             self.assertEqual(runs[0].id, 'run_test123')
+            self.assertEqual(runs[0].source, 'endpoint')
             self.assertTrue(runs[0].gate_passed)
             self.assertEqual(runs[0].case_count, 1)
-            self.assertEqual(store.get('run_test123').project, 'support-agent')
+            self.assertIsNotNone(detail)
+            self.assertEqual(detail.project, 'support-agent')
+            self.assertEqual(detail.cases[0].actual, 'A grounded answer.')
+            self.assertEqual(detail.cases[0].status_code, 200)
 
 
 if __name__ == '__main__':

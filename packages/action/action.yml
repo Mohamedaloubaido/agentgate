@@ -1,5 +1,5 @@
 name: AgentGate Quality Gate
-description: Evaluate AI agent behavior and fail CI when reliability thresholds regress.
+description: Execute and evaluate AI agent behavior, then fail CI when reliability thresholds regress.
 author: Mohammed Al-Obaido
 inputs:
   dataset:
@@ -9,6 +9,20 @@ inputs:
     description: Base URL of the AgentGate evaluator.
     required: false
     default: http://localhost:8000
+  agent_url:
+    description: Optional live agent HTTP endpoint to execute for each dataset case.
+    required: false
+  response_path:
+    description: Optional dot path to the answer in the agent JSON response.
+    required: false
+  input_field:
+    description: JSON field used to send the evaluation input to the agent.
+    required: false
+    default: input
+  timeout_ms:
+    description: Per-agent request timeout in milliseconds.
+    required: false
+    default: '10000'
 runs:
   using: node20
   main: index.mjs

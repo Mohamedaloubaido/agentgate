@@ -1,11 +1,8 @@
 {
   "name": "@agentgate/cli",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "bin": {
-    "agentgate": "bin/agentgate.mjs"
-  },
-  "engines": {
-    "node": ">=20"
+    "agentgate": "./bin/agentgate.mjs"
   }
 }
