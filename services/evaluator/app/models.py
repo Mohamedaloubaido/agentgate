@@ -24,7 +24,7 @@ class EvaluationRequest(BaseModel):
     project: str = Field(min_length=1, max_length=200)
     cases: list[EvaluationCase] = Field(min_length=1)
     thresholds: Thresholds = Field(default_factory=Thresholds)
-    judge_mode: Literal["heuristic", "llm"] = "heuristic"
+    judge_mode: Literal['heuristic', 'llm'] = 'heuristic'
 
 
 class CaseScore(BaseModel):
@@ -46,8 +46,25 @@ class AggregateMetrics(BaseModel):
 
 
 class EvaluationResponse(BaseModel):
+    run_id: str
+    created_at: str
     project: str
     gate_passed: bool
     metrics: AggregateMetrics
     cases: list[CaseScore]
     failures: list[str]
+
+
+class RunSummary(BaseModel):
+    id: str
+    project: str
+    gate_passed: bool
+    task_success: float
+    groundedness: float
+    average_score: float
+    average_latency_ms: float | None
+    total_cost_usd: float
+    failures: list[str]
+    case_count: int
+    judge_mode: str
+    created_at: str

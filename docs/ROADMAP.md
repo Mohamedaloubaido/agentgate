@@ -13,7 +13,10 @@
 
 ## Milestone 0.2 — Real agent execution
 
-- HTTP target adapter.
+- [x] Durable local run persistence + run history API.
+- [x] Dashboard reads persisted evaluator runs with graceful fallback.
+- [ ] Supabase hosted persistence adapter.
+- [ ] HTTP target adapter.
 - Prompt/version metadata.
 - Cost and latency capture.
 - Retry and timeout policy.

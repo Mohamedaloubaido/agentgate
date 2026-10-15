@@ -12,7 +12,7 @@ function valueAfter(flag, fallback) {
 }
 
 function help() {
-  console.log(`AgentGate CLI v0.1.0
+  console.log(`AgentGate CLI v0.2.0
 
 Usage:
   agentgate eval --dataset <path> [--url http://localhost:8000]
@@ -68,7 +68,7 @@ async function evaluate() {
   const result = await response.json();
   const metrics = result.metrics;
 
-  console.log('\nAgentGate quality gate');
+  console.log(`\nAgentGate quality gate · ${result.run_id}`);
   console.log('────────────────────────────────');
   console.log(`Cases            ${String(result.cases.length).padStart(8)}`);
   console.log(`Task success     ${(metrics.task_success * 100).toFixed(1).padStart(7)}%`);

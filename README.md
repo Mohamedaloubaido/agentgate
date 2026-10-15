@@ -4,7 +4,7 @@
 
 AgentGate is an open-source reliability and CI platform for AI agents. It turns agent behavior into measurable tests so teams can detect regressions in answer quality, grounding, tool use, cost, and latency before merging or deploying changes.
 
-> Status: **v0.1 alpha** — the first public foundation is intentionally small, testable, and extensible.
+> Status: **v0.2 alpha** — the first public foundation is intentionally small, testable, and extensible.
 
 ## Why AgentGate?
 
@@ -26,7 +26,7 @@ Quality gate
 Pass → merge     Fail → block
 ```
 
-## v0.1 includes
+## v0.2 includes
 
 - Evaluation API built with FastAPI.
 - Deterministic heuristic scoring for local/offline testing.
@@ -35,7 +35,8 @@ Pass → merge     Fail → block
 - Quality-gate thresholds for CI.
 - CLI foundation: `agentgate eval`.
 - Reusable GitHub Action wrapper.
-- Next.js dashboard shell with production-style metrics and trace preview.
+- Next.js dashboard backed by persisted evaluator runs, with an offline demo fallback.
+- Durable local SQLite run history and run lookup API.
 - PostgreSQL/Supabase schema for projects, datasets, runs, cases, and traces.
 - GitHub Actions CI for evaluator tests and CLI syntax checks.
 
@@ -55,8 +56,8 @@ Pass → merge     Fail → block
                │
       ┌────────┴────────┐
       ▼                 ▼
-PostgreSQL          Agent traces
- / Supabase          + metrics
+SQLite local       Agent traces
+Supabase hosted     + metrics
 
 GitHub Actions ──► AgentGate CLI ──► Quality Gate
 ```
@@ -146,7 +147,8 @@ AgentGate returns a non-zero CLI exit code when configured thresholds fail. That
 - [x] CLI quality gate
 - [x] Dashboard shell
 - [x] Trace data model
-- [ ] Persistent run ingestion
+- [x] Persistent local run ingestion
+- [ ] Supabase hosted persistence adapter
 - [ ] Prompt version comparison
 - [ ] Tool-call accuracy scoring
 - [ ] GitHub PR comment summaries
