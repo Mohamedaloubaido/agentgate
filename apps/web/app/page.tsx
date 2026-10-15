@@ -3,6 +3,7 @@ import { MetricCard } from '../components/metric-card';
 type RunSummary = {
   id: string;
   project: string;
+  source: string;
   gate_passed: boolean;
   task_success: number;
   groundedness: number;
@@ -19,6 +20,7 @@ const demoRuns: RunSummary[] = [
   {
     id: 'run_demo1842',
     project: 'support-agent',
+    source: 'endpoint',
     gate_passed: true,
     task_success: 0.948,
     groundedness: 0.92,
@@ -33,6 +35,7 @@ const demoRuns: RunSummary[] = [
   {
     id: 'run_demo1841',
     project: 'support-agent',
+    source: 'endpoint',
     gate_passed: true,
     task_success: 0.911,
     groundedness: 0.89,
@@ -47,6 +50,7 @@ const demoRuns: RunSummary[] = [
   {
     id: 'run_demo1840',
     project: 'support-agent',
+    source: 'endpoint',
     gate_passed: false,
     task_success: 0.827,
     groundedness: 0.81,
@@ -113,7 +117,7 @@ export default async function Home() {
           <a className="nav-item" href="#datasets">Datasets</a>
           <a className="nav-item" href="#settings">Settings</a>
         </nav>
-        <div className="sidebar-footer">v0.2 alpha<br/><span>{live ? 'Live evaluator' : 'Demo fallback'}</span></div>
+        <div className="sidebar-footer">v0.3 alpha<br/><span>{live ? 'Live evaluator' : 'Demo fallback'}</span></div>
       </aside>
 
       <section className="content">
@@ -131,7 +135,7 @@ export default async function Home() {
           <div>
             <span className="status-dot" />
             <strong>Quality gate {latest.gate_passed ? 'passed' : 'failed'}</strong>
-            <span>{latest.case_count} cases · {latest.judge_mode} judge</span>
+            <span>{latest.case_count} cases · {latest.judge_mode} judge · {latest.source}</span>
           </div>
           <code>{latest.id}</code>
         </section>
@@ -152,7 +156,7 @@ export default async function Home() {
             <div className="run-list">
               {runs.map((run) => (
                 <div className="run-row" key={run.id}>
-                  <div><strong>{run.project}</strong><span>{run.id}</span></div>
+                  <div><strong>{run.project}</strong><span>{run.id} · {run.source}</span></div>
                   <div className="run-score"><strong>{percent(run.average_score)}</strong><span>{run.case_count} cases</span></div>
                   <span className={`pill ${run.gate_passed ? 'pill-passed' : 'pill-failed'}`}>{run.gate_passed ? 'Passed' : 'Failed'}</span>
                 </div>

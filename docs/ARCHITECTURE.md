@@ -1,40 +1,74 @@
-# Architecture
+# AgentGate architecture
 
-## Design principles
+AgentGate separates **execution**, **evaluation**, **persistence**, and **presentation** so each layer can evolve independently.
 
-1. **Evaluation is a first-class domain.** A run is immutable evidence about one version of an agent.
-2. **Local-first.** Developers must be able to run a deterministic evaluator without paid model calls.
-3. **Provider-optional.** LLM judging is an enhancement, not a hard dependency.
-4. **CI-native.** Every run can collapse to a pass/fail quality gate.
-5. **Trace-ready.** The storage model supports spans for model calls, tool calls, handoffs, and guardrails.
+## Runtime flow
+
+```text
+JSONL dataset
+     │
+     ▼
+AgentGate CLI / GitHub Action
+     │
+     ▼
+FastAPI Evaluator
+     │
+     ├── replay mode ───────► pre-recorded `actual`
+     │
+     └── endpoint mode ─────► live AI agent HTTP endpoint
+                                │
+                                └── answer + status + latency
+     │
+     ▼
+Heuristic scorer / LLM judge
+     │
+     ▼
+Quality gate
+     │
+     ├── run summary
+     └── case-level execution details
+              │
+              ▼
+        SQLite local store
+              │
+              ▼
+        Next.js dashboard
+```
 
 ## Components
 
-### Web dashboard
+### `services/evaluator`
 
-Next.js provides project/run views, scorecards, run comparisons, and trace exploration. v0.1 uses typed demo data while the persistence layer is being wired.
+FastAPI service responsible for:
 
-### Evaluator
+- request validation;
+- live HTTP agent execution;
+- response extraction;
+- timeout and HTTP error capture;
+- heuristic or LLM-based scoring;
+- aggregate quality metrics;
+- quality-gate decisions;
+- persisted run history.
 
-The FastAPI service accepts evaluation cases and produces per-case scores plus aggregate metrics. The local heuristic scorer uses token overlap and required-term checks. When `judge_mode=llm` and `OPENAI_API_KEY` is configured, an OpenAI Responses API judge can be used.
+### `packages/cli`
 
-### CLI
+Dependency-light Node CLI that reads JSONL datasets and invokes the evaluator. It returns exit code `1` when the quality gate fails, which allows CI systems to block merges or deployments.
 
-The CLI reads JSONL datasets, sends them to the evaluator, prints a summary, and exits with code `1` when the quality gate fails.
+### `packages/action`
+
+Reusable GitHub Action wrapper around the CLI. It supports both replay datasets and live agent endpoints.
+
+### `apps/web`
+
+Next.js dashboard that reads persisted run history from the evaluator. When the evaluator is unavailable, a demo fallback keeps the interface explorable.
 
 ### Persistence
 
-The Supabase migration models projects, datasets, runs, case results, and trace spans. Row-level security is enabled as a foundation for multi-tenant isolation.
+The local adapter uses SQLite because it requires no external account and preserves run history during development. The schema stores queryable run metrics plus serialized case-level detail. A Supabase/PostgreSQL adapter is the planned hosted implementation.
 
-## Planned event flow
+## Design constraints
 
-```text
-PR opened
-  → GitHub Action
-  → AgentGate CLI
-  → Evaluation API
-  → target agent execution
-  → judge/scorers
-  → persisted run
-  → PR summary + status check
-```
+- Endpoint failures are represented as failed evaluation cases instead of aborting the complete run.
+- Replay datasets remain supported for deterministic debugging and historical comparisons.
+- Agent execution and judging are separate concerns; a future adapter can run agents through MCP, queues, or provider SDKs without changing scorer contracts.
+- Authentication headers are accepted by the API model, but secure CLI/CI secret handling is intentionally deferred until a dedicated secret-loading interface is implemented.
