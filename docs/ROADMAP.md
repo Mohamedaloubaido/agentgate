@@ -2,43 +2,56 @@
 
 ## Milestone 0.1 — Foundation
 
-- Evaluation request/response contracts.
-- Deterministic scoring engine.
-- Optional OpenAI judge.
-- CLI quality gate.
-- GitHub Action wrapper.
-- Dashboard foundation.
-- Supabase schema.
-- CI.
+- [x] Evaluation request/response contracts.
+- [x] Deterministic scoring engine.
+- [x] Optional OpenAI judge.
+- [x] CLI quality gate.
+- [x] GitHub Action wrapper.
+- [x] Dashboard foundation.
+- [x] Supabase schema foundation.
+- [x] CI foundation.
 
-## Milestone 0.2 — Real agent execution
+## Milestone 0.2 — Persistent runs
 
-- HTTP target adapter.
-- Prompt/version metadata.
-- Cost and latency capture.
-- Retry and timeout policy.
-- Persisted evaluation runs.
+- [x] Durable local SQLite run persistence.
+- [x] Run history API.
+- [x] Dashboard reads persisted runs with graceful fallback.
+- [x] Case-level persisted evaluation details.
 
-## Milestone 0.3 — Regression intelligence
+## Milestone 0.3 — Real agent execution
 
-- Baseline vs candidate comparison.
-- Metric deltas.
-- Failure clustering.
-- GitHub PR comments.
-- Required quality checks.
+- [x] HTTP target adapter.
+- [x] Dataset cases without pre-recorded `actual` answers.
+- [x] Nested response extraction.
+- [x] Request timeout policy.
+- [x] HTTP status and execution-error capture.
+- [x] Live-agent CI smoke test.
+- [ ] Authenticated endpoint secret handling.
+- [ ] Retry/backoff policy.
+- [ ] Provider-reported token and cost ingestion.
 
-## Milestone 0.4 — Observability
+## Milestone 0.4 — Regression intelligence
 
-- Trace ingestion.
-- Tool-call spans.
-- Handoff spans.
-- Token/cost accounting.
-- Trace replay UI.
+- [ ] Baseline vs candidate comparison.
+- [ ] Metric deltas and regression thresholds.
+- [ ] Failure clustering.
+- [ ] GitHub PR comments.
+- [ ] Required quality checks.
+- [ ] Prompt/version metadata.
 
-## Milestone 0.5 — Agent ecosystem
+## Milestone 0.5 — Hosted persistence and observability
 
-- Human review queue.
-- MCP tool discovery/testing.
-- Custom scorer SDK.
-- Webhooks.
-- Hosted demo.
+- [ ] Supabase hosted persistence adapter.
+- [ ] Trace ingestion.
+- [ ] Tool-call spans.
+- [ ] Handoff spans.
+- [ ] Token/cost accounting.
+- [ ] Trace replay UI.
+
+## Milestone 0.6 — Agent ecosystem
+
+- [ ] Human review queue.
+- [ ] MCP tool discovery/testing.
+- [ ] Custom scorer SDK.
+- [ ] Webhooks.
+- [ ] Hosted demo.
