@@ -1,0 +1,9 @@
+services:
+  evaluator:
+    build:
+      context: ./services/evaluator
+    ports:
+      - "8000:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      AGENTGATE_JUDGE_MODEL: ${AGENTGATE_JUDGE_MODEL:-gpt-5.5}

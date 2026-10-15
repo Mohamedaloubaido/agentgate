@@ -1,0 +1,17 @@
+name: AgentGate Quality Gate
+description: Evaluate AI agent behavior and fail CI when reliability thresholds regress.
+author: Mohammed Al-Obaido
+inputs:
+  dataset:
+    description: Path to a JSONL evaluation dataset.
+    required: true
+  evaluator_url:
+    description: Base URL of the AgentGate evaluator.
+    required: false
+    default: http://localhost:8000
+runs:
+  using: node20
+  main: index.mjs
+branding:
+  icon: shield
+  color: gray-dark

@@ -1,0 +1,15 @@
+version: 1
+project: agentgate-demo
+evaluator_url: http://localhost:8000
+
+dataset: examples/customer-support/evals.jsonl
+
+thresholds:
+  task_success: 0.90
+  groundedness: 0.85
+  max_latency_ms: 3000
+  max_cost_usd: 0.05
+
+judge:
+  mode: heuristic
+  model: gpt-5.5

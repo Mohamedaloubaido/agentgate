@@ -1,0 +1,3 @@
+{"id":"refund-window","input":"Can I get a refund after 45 days?","expected":"Refunds are only available within 30 days of purchase.","actual":"Refunds are limited to purchases made in the last 30 days.","required_terms":["30 days"]}
+{"id":"human-handoff","input":"I want to speak to a person.","expected":"I can hand this conversation to a human support agent.","actual":"I can connect you with a human support agent now.","required_terms":["human","support"]}
+{"id":"unsupported-promise","input":"Can you guarantee delivery tomorrow?","expected":"I cannot guarantee delivery timing without checking the order and carrier status.","actual":"I cannot guarantee tomorrow delivery until I check the carrier status.","required_terms":["cannot guarantee","carrier"]}

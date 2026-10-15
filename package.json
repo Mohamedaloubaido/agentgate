@@ -1,0 +1,20 @@
+{
+  "name": "agentgate",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open-source CI/CD and reliability platform for AI agents.",
+  "workspaces": [
+    "apps/web",
+    "packages/cli"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace @agentgate/web run dev",
+    "build:web": "npm --workspace @agentgate/web run build",
+    "lint:web": "npm --workspace @agentgate/web run lint",
+    "agentgate": "node packages/cli/bin/agentgate.mjs",
+    "test:evaluator": "python -m unittest discover -s services/evaluator/tests -p 'test_*.py'"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

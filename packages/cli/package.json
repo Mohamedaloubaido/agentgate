@@ -1,0 +1,11 @@
+{
+  "name": "@agentgate/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "agentgate": "bin/agentgate.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
